@@ -128,7 +128,7 @@ body {
 
 /* 游戏结束的样式 */
 /* 任务失败页面 */
-#game-over-alert {
+#game-over-alert,#game-succ-alert {
     width: 240px;
     height: 80px;
     border: solid 1px rgb(85, 255, 227);
@@ -145,7 +145,7 @@ body {
     background-color:rgba(0,0,0,0.3);
 }
 
-#game-over-alert h1 {
+#game-over-alert h1,#game-succ-alert h1 {
     width: 150px;
     margin: 0 auto;
     margin-top: -40px;
@@ -153,7 +153,7 @@ body {
     text-shadow: 0 0 15px  rgb(85, 255, 227);
 }
 
-#game-over-alert #restart-btn {
+#game-over-alert #restart-btn,#game-succ-alert #next-btn {
     font-size: 24px;
     margin-top: 20px;
 }

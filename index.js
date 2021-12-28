@@ -4,7 +4,9 @@ let config = {
     // 病毒生成的时间间隔
     interval:800,
     // 病毒动画的速度
-    speed:3
+    speed: 3,
+    // 是否通关 默认没通关
+    isSucc: false,
 }
 
 // 得分
@@ -109,7 +111,12 @@ function update(){
 
     for(let i = 0;i < virues.length;i++){
         let virus = virues[i];
-        virus.style.top = virus.offsetTop + config.speed + 'px'
+        // 通关后 增大速度
+        if(config.isSucc) {
+          virus.style.top = virus.offsetTop + config.speed + 2*i + 'px'
+        }else {
+          virus.style.top = virus.offsetTop + config.speed + i + 'px'
+        }
 
         if(virus.offsetTop > (winH - 200) && !uiLayer.warning ){
             showWarning()
@@ -128,12 +135,21 @@ function showWarning(){
 }
 
 let gameOverAlert = document.querySelector('#game-over-alert')
+let gameSuccAlert = document.querySelector('#game-succ-alert')
 // 游戏介绍
 function gameOver(){
     clearInterval(timer)
     clearInterval(updater)
     config.status = 2;
     gameOverAlert.style.display = 'block'
+}
+
+// 游戏通关
+function gameSucc(){
+  clearInterval(timer)
+  clearInterval(updater)
+  config.status = 2;
+  gameSuccAlert.style.display = 'block'
 }
 
 
@@ -169,6 +185,11 @@ window.addEventListener('keyup',function(e){
             score++;
             scoreLabel.innerHTML = score
 
+            if(score >= 2) {
+              config.isSucc = true
+              gameSucc()
+            }
+
             // 播放消灭音效
             xmEffect.currentTime = 0;
             xmEffect.play()
@@ -185,8 +206,24 @@ restartBtn.onclick = function(){
     resetGame()
 }
 
+// 下一关
+let nextBtn = document.querySelector('#next-btn')
+nextBtn.onclick = function(){
+    gameSuccAlert.style.display = 'none'
+    goOn()
+}
+
+function goOn() { 
+  config.status = 1;
+  score = 0;
+  scoreLabel.innerHTML = score;
+  scoreLabel.innerHTML = score;
+  startGame()
+}
+
 function resetGame(){
     config.status = 1;
+    config.isSucc = false
     score = 0;
     scoreLabel.innerHTML = score;
     game.innerHTML = ''
